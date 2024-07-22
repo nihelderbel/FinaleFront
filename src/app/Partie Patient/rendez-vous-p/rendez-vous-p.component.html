@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- iconscout cdn path -->
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+   <!-- CSS File Link -->
+   <link rel="stylesheet" href="/assets/style1.css">
+</head>
+<body >
+   <div class="sidebar" id="sidebar">
+      <div class="logo">
+         <a href="/homeDigitalMedical">
+         <h3>
+            <i class="uil uil-hospital" routerLink="/homeDigitalMedical"></i>
+            Clinique NAR
+         </h3>
+      </a>
+      </div>
+
+      <div class="sidebar-menu">
+         <ul>
+            <li style=" background-color: #006eff;" routerLink="/homePatient">
+               <i style="color: #FFFF;" class="uil uil-dashboard"></i>
+               <span style="color: #FFFF;">Tableau de bord</span>
+            </li>
+            <li class="active" routerLink="/rendezVousP">
+                <i style="color: #006eff;" class="uil uil-clipboard-notes"></i>
+                <span style="color: #006eff;">Rendez vous</span> 
+            </li> 
+            <li  routerLink="/profileP">
+               <i   class="uil uil-user-nurse"></i>
+              <span>Mon Profil</span>
+           </li>
+            <li (click)="logout()">
+               <i class="uil uil-signin"></i>
+               <span>Déconnexion</span>
+            </li>
+         </ul>
+      </div>
+   </div>
+
+   <div class="main-content" id="main-content" style="background-color: #FFFFFF;">
+      <header class="flex" style="background-color: #FFFFFF;">
+         <h2>
+            <i  class="uil-clipboard-notes"  id="menu-icon"></i> Rendez-vous </h2>
+         <div class="admin-box flex" >
+            <img src={{imagePath}} width="30px" height="30px">
+            <div>
+               <h4>{{nomPrenomPatient}}</h4>
+               <small style="margin-left: 30px;">Patient </small>
+            </div>
+         </div>
+      </header>
+
+      <div class="container-xl px-4 mt-4" style="background-color: #FFFFFF;">
+         <!-- Account page navigation-->
+         <div class="row">
+             <div class="col-xl-8" style="margin-top: 0px;background-color: #FFFFFF;">
+                 <!-- Account details card-->
+                 <div class="card mb-4" style="width: 670px;margin-left: 185px;position: fixed;">
+                     <div class="card-body">
+                         <form style="height: 490px;"  #fadd=ngForm>
+                           <div class="container"> 
+                              <div class="title">Prendre un Rendez-Vous</div>
+                                 <!-- Form Group (first name)-->
+                                 <div class="col-md-6">
+                                     <label  style="margin-left: 35px;">Départements souhaité <br></label>
+                                     <div class="centrer_dropdown">
+                                       <div class="dropdown">
+                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                           {{ departementSelectionne ? departementSelectionne : 'Choisissez le département souhaité' }}
+                                         </button>
+                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                           <a class="dropdown-item" *ngFor="let departement of departements" (click)="selectionnerDepartement(departement)">{{ departement.nom }}</a>
+                                         </div>
+                                       </div>
+                                     </div>                               
+                                </div>
+                                <div class="col-md-6">
+                                 <label  style="margin-left: 35px; margin-top: 21px;"> Médecin <br></label>
+                                 <div class="centrer_dropdown">
+                                   <div class="dropdown">
+                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       {{ medecinSelectionne ? medecinSelectionne : 'Choisissez le médecin souhaité' }}
+                                     </button>
+                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                       <a class="dropdown-item" *ngFor="let medecin of medecins" (click)="selectionnerMedecin(medecin)">{{ "Dr "+ medecin.nom+" "+medecin.prenom}}</a>
+                                     </div>
+                                   </div>
+                                 </div>                               
+                            </div>
+                            <div class="col-md-6">
+                              <label  class="labeldate"> Sélectionner date de rendez-vous souhité  <br></label>
+                              <input type="date" id="dateRdv"  [min]="todayDate()" ngModel name="dateRdv" required #dateRdv="ngModel" required>
+                           </div>
+                         <textarea id="textarea" name="textarea" [(ngModel)]=textValue rows="4" cols="50" placeholder="Ecrivez votre message ici .." ></textarea>
+                            </div>
+                             <button style="margin-left: 287px;margin-top:-33px;" class="btn btn-primary" type="submit" [disabled]=!fadd.valid (click)="addRV(fadd)"> Enregistrer</button>
+                             <br>
+                         </form>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+   </div>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- iconscout cdn path -->
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+   <!-- CSS File Link -->
+   <link rel="stylesheet" href="/assets/style1.css">
+</head>
+<body>
+   <div class="sidebar" id="sidebar">
+      <div class="logo">
+         <h3>
+            <i class="uil uil-hospital"></i>
+            Clinique NAR
+         </h3>
+      </div>
+
+      <div class="sidebar-menu">
+         <ul>
+            <li style=" background-color: #006eff;" routerLink="/homeMedecin">
+               <i style="color: #FFFF;" class="uil uil-dashboard"></i>
+               <span style="color: #FFFF;">&nbsp;Tableau de bord</span>
+            </li>
+          <li  routerLink="/viewMedecin">
+             <i class="icofont-doctor"></i>
+            <span >&nbsp;Médecins</span>
+         </li>
+          <li routerLink="/view-patient">
+              <i class="uil uil-accessible-icon-alt"></i>
+             <span>&nbsp;Patients</span>
+          </li>      
+          <li class="active" routerLink="/viewDossier">
+                <i style="color: #006eff;" class="uil-clipboard-notes"></i>
+             <span style="color: #006eff;">&nbsp;Dossier Medicale</span>
+          </li>
+          <li routerLink="/view-plage">
+                <i class="uil uil-calendar-alt"></i>
+             <span>&nbsp;Plage Horraire</span>
+          </li>
+          <li routerLink="/medecinProfile">
+            <i class="icofont-user-suited"></i>
+         <span>&nbsp;Mon profil</span>
+      </li>
+          <li (click)="logout()">
+             <i class="uil uil-signin"></i>
+             <span>&nbsp;Déconnexion</span>
+          </li>
+         </ul>
+      </div>
+   </div>
+
+   <div class="main-content" id="main-content">
+      <header class="flex">
+         <h2>
+            <i class="uil-clipboard-notes" id="menu-icon"></i>
+             Dossier Médicale 
+         </h2>
+         <div class="admin-box flex" >
+            <img src={{imagePath}} width="30px" height="30px">
+            <div>
+               <h2>{{nomPrenomMedecin}}</h2>
+               <small style="margin-left: 14px;"> Specialité : {{ medecin.specialite.nom}}</small>
+            </div>
+         </div>
+      </header>
+
+      <main>
+         <!-- tableau d'operations -->
+         <div class="wrapper flex" *ngIf="serviceAM.testDossier !== 0 ; else tabVide">
+          <div class="operations">
+             <div class="card-header flex">
+                <h3> Dossiers Médicaux </h3>
+                <div class="search-box">
+                   <i class="uil uil-search"></i>
+                   <input [(ngModel)]="texte"  type="text" placeholder="recherche ici ...">
+                </div>
+ 
+             </div>
+             <table class="table" >
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Nom Patient</th>
+                    <th scope="col">Prénom Patient</th>
+                    <th scope="col">genre</th>
+                    <th scope="col">Télephone</th>
+                    <th scope="col">date d'inscrit patient</th>
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor ="let patient of serviceAM.DossierData| paginate: { itemsPerPage:6, currentPage: p } let i = index">
+                   <th scope="row">
+                      <ng-container *ngIf="i === 0; else otherIndex">{{ p * 6 - 5 }}</ng-container>
+                      <ng-template #otherIndex>{{ p * 6 + i - 5 }}</ng-template>
+                   </th>
+                   <td>{{ formatDate(patient.dossierMedical.date_creation_dossier )}}</td>
+                    <td>{{ patient.nom }}</td>
+                    <td>{{ patient.prenom }}</td>
+                    <td>{{ patient.gender }} </td>
+                    <td>{{ patient.telephone }} </td>
+                    <td>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{ formatDate(patient.date_inscription) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>   
+       </div>
+       <ng-template #tabVide >
+          <div class="imageNotFound">
+             <img src="/assets/AdminDigital/assets/img/1234.png">
+             <h4 class="alignemennt"><br>Pas des Dossiers Médicaux enregistrées pour le moment</h4>
+          </div>
+         
+       </ng-template> 
+    </main>
+   </div>
+
+
+</body>
+</html>

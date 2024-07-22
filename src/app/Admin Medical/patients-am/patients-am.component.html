@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- iconscout cdn path -->
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+   <!-- CSS File Link -->
+   <link rel="stylesheet" href="/assets/style1.css">
+</head>
+<body>
+   <div class="sidebar" id="sidebar">
+      <div class="logo">
+         <a href="/homeAdminMedical">
+            <h3>
+               <i class="uil uil-hospital" routerLink="/homeAdminMedical"></i>
+               Clinique NAR
+            </h3>
+         </a>
+      </div>
+      <div class="sidebar-menu">
+         <ul>
+            <li style=" background-color: #006eff;" routerLink="/homeAdminMedical">
+                <i style="color: #FFFF;" class="uil uil-dashboard"></i>
+                <span style="color: #FFFF;">Tableau de bord</span>
+             </li>
+             <li routerLink="/rendezVousAM">
+               <i class="uil uil-clipboard-notes"></i>
+                <span>Rendez-vous</span>
+            </li>
+            <li routerLink="/operationsAM">
+               <i class="icofont-folder-open"></i>
+                <span>Dossiers Médicaux</span>
+            </li>
+           <li routerLink="/medecinsAM">
+            <i class="icofont-doctor"></i>
+               <span >Médecins</span>
+            </li>
+            <li class="active" routerLink="/patientsAM">
+              <i style="color: #006eff;" class="uil uil-accessible-icon-alt"></i>
+               <span style="color: #006eff;">Patients</span>
+            </li>
+            <li routerLink="/allDepartementsAM">
+                <i class="uil uil-medical-square-full"></i>
+               <span>Départements</span>
+            </li>       
+            <li routerLink="/profileAM">
+               <i class="icofont-user-suited"></i>
+               <span>Mon Profil</span>
+            </li>
+            <li (click)="logout()">
+               <i class="uil uil-signin"></i>
+               <span>Déconnexion</span>
+            </li>
+         </ul>
+      </div>
+   </div>
+
+   <div class="main-content" id="main-content">
+      <header class="flex">
+         <h2>
+            <i class="uil uil-accessible-icon-alt" id="menu-icon"></i>
+            Patients
+         </h2>
+         <div class="admin-box flex" >
+            <img src={{imagePath}} width="30px" height="30px">
+            <div>
+               <h2>{{nomPrenomAdmin}}</h2>
+               <small style="margin-left: 60px;">Administrateur Supérieur </small>
+            </div>
+         </div>
+      </header>
+
+      <main>
+        <!-- tableau d'operations -->
+        <div class="wrapper flex" *ngIf="serviceAD.testTabPatients !== 0 ; else tabVide">
+         <div class="operations">
+            <div class="card-header flex">
+               <h3>Patients</h3>
+               <div class="search-box">
+                  <i class="uil uil-search"></i>
+                  <input [(ngModel)]="texte"  type="text" placeholder="recherche ici ...">
+               </div>
+               <div><img src="/assets/AdminDigital/assets/img/pdff.png" class="icon1" width="35px" height="35px" (click)="downloadPDF()"></div>
+               <button  (click)="openModelADD()"><i class="icofont-ui-add"></i></button>
+            </div>
+
+            <table class="table" >
+               <thead>
+                 <tr>
+                   <th scope="col">#</th>
+                   <th scope="col">Image</th>
+                   <th scope="col">Nom & Prénom</th>
+                   <th scope="col">genre</th>
+                   <th scope="col">Télephone</th>
+                   <th scope="col">Date d'inscription</th>
+                   <th scope="col">Actions</th>
+                   
+                   
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr *ngFor ="let patient of serviceAD.PatientData| paginate: { itemsPerPage:6, currentPage: p } let i = index">
+                   <th scope="row"> <ng-container *ngIf="i === 0; else otherIndex">{{ p * 6 - 5 }}</ng-container>
+                     <ng-template #otherIndex>{{ p * 6 + i - 5 }}</ng-template></th>
+                   <td>
+                    <img  *ngIf="patient.image !== null" src="http://localhost:8281/patient/getImageProfilePatient/{{patient.id}}" height="30px" width="30px" >
+                    <img  *ngIf="patient.image === null" src ={{imageParDefaut}} width="30px" height="30px" >
+                   </td>
+                   <td>{{ patient.nom }} &nbsp;&nbsp;{{ patient.prenom }}</td>
+                   <td>{{ patient.gender }} </td>
+                   <td>{{ patient.telephone }} </td>
+                   <td>&nbsp;&nbsp;&nbsp;{{ formatDate(patient.date_inscription) }}</td>
+                   <td>
+                     <img src="/assets/icons/edit.png" class="icon" width="30px" height="30px" (click)="openModelEdit(patient.id)" >
+                     <img src="/assets/icons/delete.png" class="icon" width="30px" height="30px" (click)="supprimer(patient.id)">
+                   </td>
+                 </tr>
+
+               </tbody>
+             </table>
+             <div class="pages">
+               <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+         </div>
+      </div>
+      <div style="position:fixed;margin-left:430px; margin-top:120px;"class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+           <div class="modal-content" id="rahma">
+             <div class="modal-header" style="height: 60px;">
+               <h5 class="modal-title" id="exampleModalLongTitle" style="margin-top: 15px;
+               margin-left: 170px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ajouter un nouveau patient <br></h5>
+               <button type="button" class="close" (click)="closeModalAdd()"
+               style="position: fixed;margin-left: 691px; margin-top: 6px;height: 49px;">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body" style="height: 200px;">
+               <form #fAdd=ngForm>
+                  <div class="row">
+                     <div class="col-lg-6 col-md-6 col-12">
+                     <div class="form-group">
+                     <label class="labell"> Nom : </label>
+                     <input class="inputt" ngModel name="name"required #name="ngModel" type="text" placeholder="Entrer nom de patient ">
+                     </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                        <label class="labell"> Prénom : </label>
+                        <input class="inputt" ngModel name="namee"required #namee="ngModel" type="text" placeholder="Entrer prenom de patient ">
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                           <label class="labell1"> Télephone : </label>
+                           <input class="inputt" ngModel name="telephone"required #telephone="ngModel" type="text" placeholder="Entrer numéro de télephone" pattern="[0-9]{8}" minlength="8"  maxlength="8">
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                           <label class="labell1"> Numéro de CIN : </label>
+                           <input class="inputt" ngModel name="cin"required #cin="ngModel" type="text" placeholder="Entrer CIN de patient " pattern="[0-9]{8}" minlength="8"  maxlength="8">
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                           <label class="labell1"> Adresse Email : </label>
+                           <input class="inputt" ngModel name="email"required #email="ngModel" type="email" placeholder="Entrer adresse email de patient">
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                           <label class="labell1"> Date de naissance :</label>
+                           <input type="date" id="date_naissance"  [max]="todayDate()"  ngModel name="date_naissance"required #date_naissance="ngModel" required>
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                           <label class="labell1" style="margin-top:20px"> Genre : </label>
+                          <div class="gender">
+                           <label for="male" style="margin-left:68px;">Homme&nbsp;&nbsp;</label>
+                           <input type="radio" id="homme" [(ngModel)]="gender" value="homme" name="gender"  style="margin-right: 100px;">
+                           <label for="female" style="margin-right:10px;">Femme</label>
+                           <input type="radio" id="femme" [(ngModel)]="gender" value="femme" name="gender" >
+                          </div>             
+                        </div>
+                     </div>
+                     <div class="col-lg-6 col-md-6 col-12">
+                        <label class="labell1" style="margin-top:20px"> Dossier Médical (s'il existe) : </label>
+                        <div class="upload-container">
+                           <label for="file-upload" class="upload-label">Sélectionner le rapport médical</label>
+                           <input id="file-upload" class="upload-input" type="file" (change)="onSelectFile($event)" accept="application/pdf">
+                           <span  id="color" *ngIf="selectedFileName" class="selected-file-name">{{ selectedFileName }}</span>
+                        </div>
+                     </div>
+                     </div>      
+               </form>
+             </div>
+             <div class="modal-footer" style="height: 60px;display: flex;justify-content: center;">
+               <button type="button" class="btn22" (click)="closeModalAdd()">Quitter</button>
+               <button type="submit" class="btn btn-primary" [disabled]=!fAdd.valid (click)="registre(fAdd)" >Sauvgarder</button>
+             </div>
+           </div>
+         </div>
+       </div>
+   <ng-template #tabVide >
+      <div class="imageNotFound">
+         <img src="/assets/AdminDigital/assets/img/1234.png">
+         <h4 class="alignemennt"><br>Pas des patients enregistrées pour le moment</h4>
+      </div>
+      <button  id="alignemennt" class="btn btn-primary" (click)="openModelADD()" > Ajouter un nouveau patient</button>
+   </ng-template> 
+
+      </main>
+   </div>
+   <div style="position:fixed;margin-left:375px; margin-top:120px;"class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="rahma">
+          <div class="modal-header" style="height: 60px;">
+            <h5 class="modal-title" id="exampleModalLongTitle" style="margin-top: 15px;
+            margin-left: 170px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Modifier profil d'un patient<br></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" 
+            style="position: fixed;margin-left: 691px; margin-top: 6px;height: 49px;" (click)="closeModal2()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="height: 200px;">
+            <form #fEdit=ngForm>
+               <div class="row">
+                  <div class="col-lg-6 col-md-6 col-12">
+                  <div class="form-group">
+                  <label class="labell"> Nom : </label>
+                  <input class="inputt" [(ngModel)]=pp.nom name="nom"required #name="ngModel" type="text" placeholder="Entrer nom de patient ">
+                  </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-12">
+                     <div class="form-group">
+                     <label class="labell"> Prénom : </label>
+                     <input class="inputt" [(ngModel)]=pp.prenom name="prenom" required #prenom="ngModel" type="text" placeholder="Entrer prenom de patient ">
+                     </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-12">
+                     <div class="form-group">
+                        <label class="labell1"> Télephone : </label>
+                        <input class="inputt" [(ngModel)]=pp.telephone  name="telephone"required #telephone="ngModel" type="text" placeholder="Entrer numéro de télephone" pattern="[0-9]{8}" minlength="8"  maxlength="8">
+                     </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-12">
+                     <div class="form-group">
+                        <label class="labell1"> Numéro de CIN : </label>
+                        <input class="inputt" [(ngModel)]=pp.cin name="cin"required #cin="ngModel" type="text" placeholder="Entrer CIN de patient " pattern="[0-9]{8}" minlength="8"  maxlength="8">
+                     </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-12">
+                     <div class="form-group">
+                        <label class="labell1"> Adresse Email : </label>
+                        <input class="inputt" [(ngModel)]=pp.email name="email"required #email="ngModel" type="email" placeholder="Entrer adresse email de patient">
+                     </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-12">
+                     <div class="form-group">
+                        <label class="labell1"> Date de naissance :</label>
+                        <input type="date" id="date_naissance"  [max]="todayDate()"   name="date_naissance" [value]="formatDate(pp.date_naissance)" required>
+                     </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-12">
+                     <div class="form-group">
+                        <label class="labell1" style="margin-top:20px"> Genre : </label>
+                       <div class="gender">
+                        <label for="male" style="margin-left:68px;">Homme&nbsp;&nbsp;</label>
+                        <input type="radio" id="homme" [(ngModel)]="gender" value="homme" name="gender"  style="margin-right: 100px;">
+                        <label for="female" style="margin-right:10px;">Femme</label>
+                        <input type="radio" id="femme" [(ngModel)]="gender" value="femme" name="gender" >
+                       </div>             
+                     </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-12">
+                     <label class="labell1" style="margin-top:20px"> Dossier Médical (s'il existe) : </label>
+                     <div class="upload-container">
+                        <label for="file-upload" class="upload-label">Sélectionner le rapport médical</label>
+                        <input id="file-upload" class="upload-input" type="file" (change)="onSelectFile($event)" accept="application/pdf">
+                        <span  id="color" *ngIf="selectedFileName" class="selected-file-name">{{ selectedFileName }}</span>
+                     </div>
+                  </div>
+                  </div>
+            </form>
+          </div>
+          <div class="modal-footer" style="height: 60px;display: flex;justify-content: center;">
+            <button type="button" class="btn22"  (click)="closeModal2()">Quitter</button>
+            <button type="submit" class="btn btn-primary" (click)="modifierrr(fEdit)" >Sauvgarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

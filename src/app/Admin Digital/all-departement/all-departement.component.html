@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- iconscout cdn path -->
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+   <!-- CSS File Link -->
+   <link rel="stylesheet" href="/assets/style1.css">
+</head>
+<body>
+   <div class="sidebar" id="sidebar">
+      <div class="logo">
+         <h3>
+            <i class="uil uil-hospital"></i>
+            Clinique NAR
+         </h3>
+      </div>
+
+      <div class="sidebar-menu">
+         <ul>
+            <li style=" background-color: #006eff;" routerLink="/homeDigitalMedical">
+                <i style="color: #FFFF;" class="uil uil-dashboard"></i>
+                <span style="color: #FFFF;">Tableau de bord</span>
+             </li>
+             <li routerLink="/rendezVous">
+               <i class="uil uil-clipboard-notes"></i>
+                <span>Rendez-vous</span>
+            </li>
+            <li routerLink="/operations">
+               <i class="icofont-folder-open"></i>
+                <span>Dossiers Médicaux</span>
+            </li>
+            <li routerLink="/secretaires">
+               <i class="uil uil-user-nurse"></i>
+              <span>Secrétaire médical</span>
+           </li>
+            <li routerLink="/medecins">
+                <i  class="icofont-doctor"></i>
+               <span>Médecins</span>
+            </li>
+            <li routerLink="/patients">
+               <i class="uil uil-accessible-icon-alt"></i>
+               <span>Patients</span>
+            </li>
+            <li class="active"  routerLink="/allDepartements">
+                <i style="color: #006eff;"  class="uil uil-medical-square-full"></i>
+               <span  style="color: #006eff;">Départements</span>
+            </li>       
+            <li routerLink="/profileAD">
+               <i class="icofont-user-suited"></i>
+               <span>Mon Profil</span>
+            </li>
+            <li (click)="logout()">
+               <i class="uil uil-signin"></i>
+               <span>Déconnexion</span>
+            </li>
+         </ul>
+      </div>
+   </div>
+
+   <div class="main-content" id="main-content">
+      <header class="flex">
+         <h2>
+            <i class="uil uil-medical-square-full" id="menu-icon"></i>
+            Départements 
+         </h2>
+
+         <!--div class="search-box">
+            <i class="uil uil-search"></i>
+            <input type="text" placeholder="recherche ici ...">
+         </div-->
+
+         <div class="admin-box flex" >
+            <img src={{imagePath}} width="30px" height="30px">
+            <div>
+               <h2>{{nomPrenomAdmin}}</h2>
+               <small style="margin-left: 60px;">Administrateur Supérieur </small>
+
+            </div>
+         </div>
+      </header>
+
+      <main>
+        <!-- tableau d'operations -->
+        <div class="wrapper flex" *ngIf="service.testTabDepartement  !== 0 ; else tabVide">
+         <div class="operations">
+            <div class="card-header flex">
+               <h3>Départements </h3>
+               <div class="search-box">
+                  <i class="uil uil-search"></i>
+                  <input [(ngModel)]="texte"  type="text" placeholder="recherche ici ...">
+               </div>
+               <div><img src="/assets/AdminDigital/assets/img/pdff.png" class="icon1" width="35px" height="35px" (click)="downloadPDF()"></div>
+               <button data-toggle="modal" data-target="#exampleModalCenter"><i class="icofont-ui-add"></i></button>
+            </div>
+      
+            <table class="table" >
+               <thead>
+                 <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Nom Département</th>
+                  <th scope="col"> Nombre Medecins</th>
+                  <th scope="col">Date de création </th>
+                  <th scope="col">&nbsp;&nbsp;&nbsp;Actions</th>    
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr *ngFor ="let dep of service.DepartementData | paginate: { itemsPerPage:6, currentPage: p } let i = index">
+                   <th scope="row">
+                     <ng-container *ngIf="i === 0; else otherIndex">{{ p * 6 - 5 }}</ng-container>
+                     <ng-template #otherIndex>{{ p * 6 + i - 5 }}</ng-template></th>
+                   <td>{{ dep.nom }}</td>
+                   <td>
+                     <!-- Utilisation de la deuxième boucle *ngFor pour parcourir medecinsParDepartement -->
+                     <ul>
+                       <li *ngFor="let med of medecinsParDepartement">
+                         <span *ngIf="med.nomDepartement === dep.nom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           {{ med.nombreMedecins }}</span>
+                       </li>
+                     </ul>
+                   </td>
+                   <td>&nbsp;&nbsp;&nbsp;{{ formatDate(dep.date_creation) }}</td>
+                   <td>
+                     <img src="/assets/icons/edit.png" class="icon" width="30px" height="30px" (click)="openModelEdit(dep.id)">
+                     <img src="/assets/icons/delete.png" class="icon" width="30px" height="30px" (click)="supprimer(dep.id)">
+                   </td>
+                 </tr>
+
+               </tbody>
+             </table>
+             <div class="pages">
+               <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+         </div>
+      </div>
+      </main>
+   </div>
+   <div style="position: fixed;margin-left: 525px; margin-top:186px;"class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="rahma">
+          <div class="modal-header" style="height: 120px;">
+            <h5 class="modal-title" id="exampleModalLongTitle" style="margin-top: 15px;
+            margin-left: 108px;">Ajouter un nouvelle département<br></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Quitter" 
+            style="position: fixed;margin-left:490px; margin-top: 6px;height: 49px;" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="height: 200px;">
+            <form #fadd=ngForm>
+                  <div class="col-lg-12">
+                  <div class="form-group">
+                  <label class="labell"> Nom de nouveau département : </label>
+                  <input  class ="inputt"type="text" ngModel name="name"required #name="ngModel" placeholder="nom de département">
+                  </div>
+                  </div>          
+            </form>
+          </div>
+          <div class="modal-footer" style="height:107px;display: flex;justify-content: center;">
+            <button type="button" class="btn22"  (click)="closeModal()">Quitter</button>
+            <button type="submit" [disabled]=!fadd.valid class="btn btn-primary" (click)="sauvegarder(fadd)" >Sauvgarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="position: fixed;margin-left: 525px; margin-top:186px;"class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="rahma">
+          <div class="modal-header" style="height: 120px;">
+            <h5 class="modal-title" id="exampleModalLongTitle" style="margin-top: 15px;
+            margin-left: 108px;">Modifier un  département<br></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Quiter" (click)="closeModal2()"
+            style="position: fixed;margin-left:490px; margin-top: 6px;height: 49px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="height: 200px;">
+            <form #formEdit=ngForm>
+                  <div class="col-lg-12">
+                  <div class="form-group">
+                  <label class="labell"> Nom de département : </label>
+                  <input  class ="inputt"type="text" [(ngModel)]=departement.nom ngModel name="nom" 
+                  required #nom="ngModel" placeholder="nom de département">
+                  </div>
+                  </div>          
+            </form>
+          </div>
+          <div class="modal-footer" style="height:107px;display: flex;justify-content: center;">
+            <button type="button" class="btn22" (click)="closeModal2()">Quitter</button>
+            <button type="submit" [disabled]=!formEdit.valid class="btn btn-primary" (click)="modifierrr(formEdit)">Sauvgarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #tabVide >
+      <div class="imageNotFound">
+         <img src="/assets/AdminDigital/assets/img/1234.png">
+      </div>
+      <button  id="alignemennt" class="btn btn-primary" (click)="openModelAddVide()" > Ajouter un nouveau département</button>
+       <!--- <div class="imageNotFound">
+         <img src="/assets/AdminDigital/assets/img/123.jpg">
+      </div>
+    button type="button" class="btn btn-primary btn-lg round" data-toggle="modal" data-target="#exampleModalCenter" routerLink="/addMedecin"
+       style="display: block;margin: 0 auto;">&nbsp;Ajouter un  médecin&nbsp;</button-->
+
+   </ng-template> 
+</body>
+</html>

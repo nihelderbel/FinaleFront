@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- iconscout cdn path -->
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+   <!-- CSS File Link -->
+   <link rel="stylesheet" href="/assets/style1.css">
+</head>
+<body>
+   <div class="sidebar" id="sidebar">
+      <div class="logo">
+         <h3>
+            <i class="uil uil-hospital"></i>
+            Clinique NAR
+         </h3>
+      </div>
+
+      <div class="sidebar-menu">
+         <ul>
+            <li style=" background-color: #006eff;" routerLink="/homeMedecin">
+               <i style="color: #FFFF;" class="uil uil-dashboard"></i>
+               <span style="color: #FFFF;">&nbsp;Tableau de bord</span>
+            </li>
+            <li  routerLink="/viewMedecin">
+               <i  class="icofont-doctor"></i>
+              <span >&nbsp;Médecins</span>
+           </li>
+            <li routerLink="/view-patient">
+                <i class="uil uil-accessible-icon-alt"></i>
+               <span>&nbsp;Patients</span>
+            </li>      
+            <li routerLink="/viewDossier">
+                  <i class="uil-clipboard-notes"></i>
+               <span>&nbsp;Dossier Medicale</span>
+            </li>
+            <li routerLink="/view-plage">
+                  <i class="uil uil-calendar-alt"></i>
+               <span>&nbsp;Plage Horraire</span>
+            </li>
+            <li class="active" routerLink="/medecinProfile">
+               <i style="color: #006eff;" class="icofont-user-suited"></i>
+            <span style="color: #006eff;">&nbsp;Mon profil</span>
+            </li>
+            <li (click)="logout()">
+               <i class="uil uil-signin"></i>
+               <span>&nbsp;Déconnexion</span>
+            </li>
+         </ul>
+      </div>
+   </div>
+
+   <div class="main-content" id="main-content">
+      <header class="flex">
+         <h2>
+            <i class="icofont-user-suited" id="menu-icon"></i>
+             Mon profil
+         </h2>
+         <div class="admin-box flex" >
+            <img src={{imagePath}} width="30px" height="30px">
+            <div>
+               <h2>{{nomPrenomMedecin}}</h2>
+               <small style="margin-left: 14px;"> Specialité :{{medecin.specialite.nom}} </small>
+            </div>
+         </div>
+      </header>
+      <div class="container-xl px-4 mt-4" style="background-color: #FFFFFF;">
+         <!-- Account page navigation-->
+         <div class="row">
+             <div class="col-xl-8" style="margin-top: 0px;background-color: #FFFFFF;">
+                 <!-- Account details card-->
+                 <div class="card mb-4" style="width: 670px;margin-left: 185px;position: fixed;">
+                     <div class="card-body">
+                         <form style="height:520px; " (ngSubmit)="modifierProfile(fl)" #fl=ngForm>
+                           <div class="container">
+
+                              <div class="avatar-upload">
+                              <div class="avatar-edit" *ngIf="testImage === null ; else close">
+                              <input type='file' id="imageUpload" (change)="onSelectFile($event)" 
+                              class="select-profile-picture"  accept=".png, .jpg, .jpeg" />
+                              
+                                    <label for="imageUpload"></label>
+                              </div>
+                              <ng-template #close>
+                                <div class="avatar-close" >
+                                 <label (click)="changeImage()" class="csslabel">
+                                <i class="icofont-close" style="color:  #757575; position: absolute;top: 10px;left: 10px;" ></i></label>
+                                    <label for="imageUpload"></label>
+                                  </div>
+                                </ng-template>
+                              <div class="avatar-preview">
+                                <img id="imagePreview" src={{imagePath2}} style="width:138px ; height: 138px;" >
+                              </div>
+                              </div>
+                              </div>
+                              
+                             <!-- Form Group (username)-->
+                             <!-- Form Row-->
+                             <div class="row gx-3 mb-3">
+                                 <!-- Form Group (first name)-->
+                                 <div class="col-md-6">
+                                     <label  style="margin-left: 35px;">Nom</label>
+                                     <input  style="margin-left: 30px;" class="form-control" id="inputFirstName" type="text" placeholder="Entrer votre nom" 
+                                     [(ngModel)]=medecin.nom ngModel name="nom" required #nom="ngModel" >
+                                     <span style="color:#e54f4f ;margin-left: 48px;position: absolute;"
+                                     *ngIf="!nom.valid && nom.touched">Entrer  votre nom  </span>
+                                 </div>
+                                 <!-- Form Group (last name)-->
+                                 <div class="col-md-6">
+                                     <label >Prénom</label>
+                                     <input class="form-control" id="inputLastName" type="text" placeholder="Entrer votre prénom" 
+                                     [(ngModel)]=medecin.prenom ngModel name="prenom" required #prenom="ngModel" >
+                                     <span style="color:#e54f4f ;margin-left: 18px;position: absolute;"
+                                 *ngIf="!prenom.valid && prenom.touched">Entrer votre prénom  </span>
+                                 </div>
+                             </div>
+                             <div class="row gx-3 mb-3">
+                              <!-- Form Group (first name)-->
+                              <div class="col-md-6">
+                                 <label style="margin-left: 35px;"> Addresse Email</label>
+                                 <input style="margin-left: 30px;" class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" 
+                                 [(ngModel)]=medecin.email ngModel name="email" required #email="ngModel" >
+                                 <span style="color:#e54f4f ;margin-left: 18px;position: absolute;"
+                                 *ngIf="!email.valid && email.touched">Entrer  votre prénom  </span>
+                              </div>
+                              <!-- Form Group (last name)-->
+                              <div class="col-md-6">
+                                 <label style="margin-left: 5px;">Numéro CIN</label>
+                                     <input  class="form-control" id="inputFirstName" type="tel" 
+                                     placeholder="Enter your phone number" [(ngModel)]=medecin.cin ngModel name="cin" required #cin="ngModel" >
+                                     <span style="color:#e54f4f ;margin-left: 48px;position: absolute;"
+                                     *ngIf="!cin.valid && cin.touched">Entrer  votre prénom  </span>
+                              </div>
+                          </div>
+                          <div class="row gx-3 mb-3">
+                           <!-- Form Group (first name)-->
+                           <div class="col-md-6">
+                              <label style="margin-left: 35px;"> Numéro de téléphone</label>
+                              <input style="margin-left: 30px;" class="form-control" id="inputEmailAddress" type="text" placeholder="Entrer votre numéro de téléphone" 
+                              [(ngModel)]=medecin.telephone ngModel name="telephone" required #telephone="ngModel" >
+                              <span style="color:#e54f4f ;margin-left: 18px;position: absolute;"
+                              *ngIf="!telephone.valid && telephone.touched">Entrer votre numéro de téléphone</span>
+                           </div>
+                           <div class="col-md-6">
+                           <div class="form-group">
+                              <label class="labell1"> Genre : </label>
+                             <div classe="gender">
+                              <label for="male" style="margin-left: 29px;margin-top: 12px;">Homme&nbsp;&nbsp;</label>
+                              <input type="radio" id="homme" [(ngModel)]="gender" value="homme" name="gender"  style="margin-right: 100px;">
+                              <label for="female" style="margin-right:10px;">Femme</label>
+                              <input type="radio" id="femme" [(ngModel)]="gender" value="femme" name="gender" >
+                             </div>             
+                           </div>
+                           </div>
+                           <!-- Form Group (last name)-->
+               
+                       </div>
+                             <!-- Form Row        -->
+                             <div class="row gx-3 mb-3">
+                             </div>
+                           
+                             <button style="margin-left: 250px;" class="btn btn-primary" type="submit" [disabled]=!fl.valid>Enregistrer</button>
+                             <br>
+                         </form>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+      <main>
+
+
+      </main>
+   </div>
+</body>
+</html>

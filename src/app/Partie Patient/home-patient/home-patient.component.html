@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- iconscout cdn path -->
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css">
+   <!-- CSS File Link -->
+   <link rel="stylesheet" href="/assets/style1.css">
+</head>
+<body>
+   <div class="sidebar" id="sidebar">
+      <div class="logo">
+         <a href="/homePatient">
+            <h3>
+               <i class="uil uil-hospital" routerLink="/homePatient"></i>
+               Clinique NAR
+            </h3>
+         </a>
+      </div>
+
+      <div class="sidebar-menu">
+         <ul>
+            <li routerLink="/homePatient">
+               <i class="uil uil-dashboard"></i>
+               <span>Tableau de bord</span>
+            </li>
+            <li routerLink="/rendezVousP">
+                <i class="uil uil-clipboard-notes"></i>
+                <span>Rendez-vous</span>
+            </li> 
+       
+            <li routerLink="/profileP">
+               <i class="icofont-user-suited"></i>
+               <span>Mon Profil</span>
+            </li>
+            <li (click)="logout()">
+               <i class="uil uil-signin"></i>
+               <span>Déconnexion</span>
+            </li>
+         </ul>
+      </div>
+   </div>
+
+   <div class="main-content" id="main-content">
+      <header class="flex">
+         <h2>
+            <i class="uil uil-bars" id="menu-icon"></i>
+            Tableau de bord
+         </h2>
+         <div class="admin-box flex" >
+            <img src={{imagePath}} width="30px" height="30px">
+            <div>
+               <h2>{{nomPrenomPatient}}</h2>
+               <small style="margin-left: 60px;">Patient </small>
+            </div>
+         </div>
+      </header>
+
+      <main>
+           <!-- tableau d'operations -->
+        <div class="wrapper flex"  *ngIf="service.testRV !== 0 ; else tabVide">
+         <div class="operations">
+            <div class="card-header flex">
+               <h3>Rendez-vous réservé</h3>
+               <button routerLink="/rendezVousP"> <i  class="icofont-ui-add"></i></button>
+            </div>
+            <table class="table" >
+               <thead>
+                 <tr>
+                   <th scope="col">#</th>
+                   <th scope="col">Date de Prendre RV</th>
+                   <th scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Médecin</th>
+                   <th scope="col">Départemet</th>
+                   <th scope="col">Date de RV </th>
+                   <th scope="col">Presence</th>
+                   <th scope="col">Actions</th>  
+                 </tr>
+               </thead>
+             <tbody>
+             <tr *ngFor ="let rv of service.RVData ;let i = index">
+               <td>{{i+1}}</td>
+               <td>&nbsp;&nbsp;&nbsp;{{formatDate(rv.datePrendreRdv)}}</td>
+               <td>{{rv.medecinRV.nom+" "+rv.medecinRV.prenom}}</td>
+               <td>{{rv.medecinRV.specialite.nom}}</td>
+               <td>{{formatDate(rv.dateRdv)}}</td>
+               <td>
+                  <div *ngIf="compareDates() === false" class="badge badge-solid-green">Présente</div>
+                  <div *ngIf="compareDates() === true" class="badge badge-solid-orange">Absente</div>
+                </td>
+               <td> &nbsp;&nbsp;&nbsp;<img src="/assets/icons/delete.png" class="icon" width="30px" height="30px" (click)="supprimer(rv.idRdv)">
+               </td>
+            </tr>
+           </tbody>
+         </table>
+         </div>
+        </div>
+         <ng-template #tabVide >
+            <div class="imageNotFound">
+               <img src="/assets/AdminDigital/assets/img/1234.png">
+            </div>
+               <h4 class="alignemennt"><br>Pas des rendez-vous réservés pour le moment</h4>
+         </ng-template> 
+      </main>
+   </div>
+
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+
+    <header class="header" >
+        <div class="topbar">
+        <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-5 col-12">
+            <ul class="top-link">
+              <li><a  href="/aboutUs" >À propos de nous</a></li>
+              <li><a  href="/p_medecin">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>Médecin </u></a></li>
+              <li><a  href="/p_patient">&nbsp;&nbsp;&nbsp;<u>Patient </u></a></li>
+              <li><a  href="/secretaire">&nbsp;&nbsp;&nbsp;<u>Sécretaire </u></a></li>
+             </ul>
+          </div>
+          <div class="col-lg-6 col-md-7 col-12">
+            <ul class="top-contact">
+              <li><i class="fa fa-phone"></i>+216 73 123 456</li>
+              <li><i class="fa fa-envelope"></i><a href="mailto:support@yourmail.com">clinique.nar&#64;gmail.com</a></li>
+              <li><a  href="/admin"><img src="/assets/img/parametres.png" width="30px" height="30px" ></a></li>   
+            </ul>
+          </div>
+        </div>
+        </div>
+        </div>
+        <div class="header-inner">
+        <div class="container">
+        <div class="inner">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-12">
+          
+              <div class="mobile-nav"></div>
+            </div>
+            <div class="col-lg-2 col-12" style="position: fixed;margin-left: 1004px;">
+              <div class="get-quote">
+                <a href="/rendevous" class="btn">Accueil</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
+        </header>
+    <!-- ****************************************************************************************************-->
+  <div class="containerrrr">
+    <div class="title">Formulaire d'Inscription</div>
+    <div class="content">
+      <form (ngSubmit)=" registre(f)" #f=ngForm>
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Nom</span>
+            <input type="text" ngModel name="nom"required #nom="ngModel"required placeholder="Entrer votre nom" >
+          </div>
+          <div class="input-box">
+            <span class="details">Prénom</span>
+            <input type="text" ngModel name="prenom"required #prenom="ngModel"required placeholder="Entrer votre prenom" >
+          </div>
+          <div class="input-box">
+            <span class="details">Email</span>
+            <input type="email" ngModel name="email"required #email="ngModel" required placeholder="Entrer votre adresse email" >
+          </div>
+          <div class="input-box">
+            <span class="details">Numéro de télephone</span>
+            <input type="text" ngModel name="telephone"required #telephone="ngModel" placeholder="Entrer votre numéro de télephone" required pattern="[0-9]{8}" minlength="8"  maxlength="8">
+          </div>
+          <div class="input-box">
+            <span class="details">CIN</span>
+            <input type="text"  ngModel name="cin"required #cin="ngModel"required  placeholder="Entrer votre numéro de CIN" pattern="[0-9]{8}" minlength="8"  maxlength="8">
+          </div>
+          <div class="input-box">
+            <label for="date_naissance">Date de naissance :</label>
+            <input type="date" id="date_naissance"  [max]="todayDate()"  ngModel name="date_naissance"required #date_naissance="ngModel" required>
+         </div>
+          <div class="gender-details" style="width:300px;">
+            <input type="radio" name="gender" id="dot-1" [(ngModel)]="gender" value="homme">
+            <input type="radio" name="gender" id="dot-2"[(ngModel)]="gender" value="femme">
+            <span class="gender-title">Genre</span>
+            <div class="category">
+              <label for="dot-1">
+              <span class="dot one"></span>
+              <span class="gender">Homme</span>
+            </label>
+            <label for="dot-2">
+              <span class="dot two"></span>
+              <span class="gender">Femme</span>
+            </label>
+            </div>
+          </div>
+          <div class="input-box">
+            <label for="notes"></label>
+         </div>
+        <div class="input-box">
+            <textarea id="notes"   ngModel name="notes"required #notes="ngModel" required   placeholder="Notes additionnelles sur le patient"></textarea>
+        </div>
+        </div>
+        <div class="button" style="margin-top: -48px;">
+          <input type="submit"  value="Register">
+        </div>
+        <p class="navigation"><br> <a routerLink="/p_patient">Vous avez déjà un compte ?</a>.</p>
+      </form>
+    </div>
+  </div>
