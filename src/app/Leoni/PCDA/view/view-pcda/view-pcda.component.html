@@ -133,6 +133,7 @@
                                     <th scope="col">Délai</th>
                                     <th scope="col">Statut</th>
                                     <th scope="col">Commentaire</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -150,6 +151,9 @@
                                     <td>{{task.Delai}}</td>
                                     <td>{{task.Statut}}</td>
                                     <td>{{task.Commentaire}}</td>
+                                    <td> <button class="btn-success" (click)="supprimer(task.id)">
+                                        <i class="icofont-ui-delet">Supprimer</i>
+                                    </button></td>
                                     </tr>
                             </tbody>
                         </table>
@@ -186,7 +190,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Sujet de la publication: </label>
-                                        <input class="inputt" ngModel name="sujet"  #sujet="ngModel" type="text" placeholder="Enter sujet" >
+                                        <input class="inputt" ngModel name="sujet_de_publication"  #sujet_de_publication="ngModel" type="text" placeholder="Enter sujet" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
@@ -218,7 +222,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Délai de L'action : </label>
-                                        <input class="inputt" ngModel name="delai"  #delai="ngModel" type="text" placeholder="Enter Délai de l'action">
+                                        <input class="inputt" ngModel name="delaideaction"  #delaideaction="ngModel" type="text" placeholder="Enter Délai de l'action">
                                     </div>
                                 </div>
                             </div>
@@ -232,7 +236,7 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Délai : </label>
-                                        <input class="inputt" ngModel name="delai2"  #delai2="ngModel" type="text" placeholder="Enter Délai">
+                                        <input class="inputt" ngModel name="delai"  #delai="ngModel" type="text" placeholder="Enter Délaix">
                                     </div>
                                 </div>
                             </div>

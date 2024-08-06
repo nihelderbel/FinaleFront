@@ -6,11 +6,12 @@ import { PcdaService } from 'src/app/Leoni/Services/PCDA/pcda.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-homeaudi',
-  templateUrl: './homeaudi.component.html',
-  styleUrls: ['./homeaudi.component.css']
+  selector: 'app-homeomes',
+  templateUrl: './homeomes.component.html',
+  styleUrls: ['./homeomes.component.css']
 })
-export class HomeaudiComponent implements OnInit {
+export class HomeomesComponent implements OnInit {
+
   imageParDefaut  :string="./assets/icons/user1.png"
   imagePath : string="";
   admin : any ; 
@@ -156,6 +157,5 @@ export class HomeaudiComponent implements OnInit {
          localStorage.clear();
          this.router.navigateByUrl('');
        }
-
 
 }

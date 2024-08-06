@@ -17,6 +17,7 @@ export class ViewPcdaComponent implements OnInit {
   adminConcecte : any ; 
   nomPrenomAdmin : string="";
   pcda:Pcda[]=[];
+  pcdaSupprimer: any;
   constructor(private router:Router,private pcdaService:PcdaService) { }
 
   ngOnInit() {
@@ -26,7 +27,7 @@ export class ViewPcdaComponent implements OnInit {
     this.pcda=this.filtrer(a);
   }
   filtrer(a: string) {
-    return this.pcda.filter(x=>x.Titre.indexOf(a)!= -1);
+    return this.pcda.filter(x=>x.titre.indexOf(a)!= -1);
   }
   refreshList():void{
     this.pcdaService.getPcda().subscribe(data =>{
@@ -42,18 +43,18 @@ export class ViewPcdaComponent implements OnInit {
     sauvegarderrr(fAdd: NgForm): void {
       let designation = fAdd.value.designation;
       let titre = fAdd.value.titre;
-      let sujet = fAdd.value.sujet;
+      let sujet_de_publication = fAdd.value.sujet_de_publication;
       let processus = fAdd.value.processus;
       let priorite = fAdd.value.priorite;
       let action = fAdd.value.action;
       let O_N = fAdd.value.O_N; // Ensure this matches the form name
-      let delai = fAdd.value.delai;
+      let delaideaction = fAdd.value.delaideaction;
       let responsable = fAdd.value.responsable;
-      let delai2 = fAdd.value.delai2;
+      let delai= fAdd.value.delai;
       let statut = fAdd.value.statut;
       let commentaire = fAdd.value.commentaire;
     
-      let value = { designation, titre, sujet, processus, priorite, action, O_N, delai, responsable, delai2, statut, commentaire };
+      let value = { designation, titre, sujet_de_publication, processus, priorite, action, O_N, delaideaction, responsable, delai, statut, commentaire };
     
       console.log(value); // Log the value for debugging
     
@@ -90,7 +91,58 @@ export class ViewPcdaComponent implements OnInit {
       });
     }
     
-
+    supprimer(id: number) {
+      this.pcdaService.getPcdaById(id).subscribe(data => {
+        this.pcdaSupprimer = data;
+        
+        Swal.fire({
+          title: 'Êtes-vous sûr?',
+          html: "de supprimer Ce PDCA : <br>" + this.pcdaSupprimer.titre,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          cancelButtonText: 'Annuler',
+          confirmButtonText: 'Oui, supprimez-le!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.pcdaService.deletePcda(id).subscribe(
+              () => {
+                this.refreshList(); // Vérifiez si cette fonction met correctement à jour la liste
+                Swal.fire(
+                  'Supprimé!',
+                  'PDCA a été supprimé.',
+                  'success'
+                );
+              },
+              
+              err => {
+                console.error('Erreur lors de la suppression:', err); // Log détaillé
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-right',
+                  iconColor: 'white',
+                  background: '#f27474',
+                  customClass: {
+                    popup: 'colored-toast'
+                  },
+                  showConfirmButton: false,
+                  timer: 1500,
+                  timerProgressBar: true
+                });
+    
+                Toast.fire({
+                  icon: 'error',
+                  title: 'Erreur'
+                });
+              }
+            );
+          }
+        });
+      }, error => {
+        console.error('Erreur lors de la récupération du PDCA:', error); // Log pour getPcdaById
+      });
+    }
 
     closeModalAdd() {
       const modalDiv= document.getElementById('exampleModalCenter') ; 

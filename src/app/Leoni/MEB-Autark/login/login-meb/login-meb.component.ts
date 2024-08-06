@@ -30,7 +30,7 @@ result:any;
       let accessToken = "Bearer" + this.mb.accessToken;
       localStorage.setItem("token", accessToken);
   
-      if(this.result.role === "User MEB"){ this.router.navigate(['/homevw']);}
+      if(this.result.role === "User MEB"){ this.router.navigate(['/homemeb']);}
       else{
         console.log("error")
         Swal.fire({

@@ -143,12 +143,10 @@
                                     <td>{{task.Statut}}</td>
                                     <td>{{task.Commentaire}}</td>
                                     <td>
-                                        <button data-toggle="modal" data-target="#exampleModalCenter">
+                                        <button data-toggle="modal" data-target="#exampleModalCenter" (click)="openModelEdit(task.id)">
                                             <i class="icofont-ui-edit">Modifier</i>
                                         </button> &nbsp;&nbsp;&nbsp;
-                                        <button class="btn-success">
-                                            <i class="icofont-ui-delet">Supprimer</i>
-                                        </button>
+                                        
                                     </td>
                                     </tr>
                             </tbody>
@@ -174,37 +172,37 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell"> Désignation </label>
-                                        <input class="inputt" [(ngModel)]=user.designation ngModel name="designation"  #designation="ngModel" type="text" >
+                                        <input class="inputt" [(ngModel)]=user.designation ngModel name="designation"  required  #designation="ngModel" type="text" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell"> Titre : </label>
-                                        <input class="inputt" [(ngModel)]=user.titre ngModel name="titre"  #titre="ngModel" type="text" placeholder="Enter Titre">
+                                        <input class="inputt" [(ngModel)]=user.titre ngModel name="titre"  required   #titre="ngModel" type="text" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Sujet de la publication: </label>
-                                        <input class="inputt" [(ngModel)]=user.sujet ngModel name="sujet"  #sujet="ngModel" type="text" placeholder="Enter sujet" >
+                                        <input class="inputt" [(ngModel)]=user.sujet_de_publication ngModel name="sujet_de_publication"  required  #sujet_de_publication="ngModel" type="text"  >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Processus: </label>
-                                        <input class="inputt" [(ngModel)]=user.processus ngModel name="processus"  #processus="ngModel" type="text" placeholder="Enter processus" >
+                                        <input class="inputt" [(ngModel)]=user.processus ngModel name="processus"  required  #processus="ngModel" type="text"  >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Priorité: </label>
-                                        <input class="inputt" [(ngModel)]=user.priorite ngModel name="priorite"  #priorite="ngModel" type="text" placeholder="Enter priorté">
+                                        <input class="inputt" [(ngModel)]=user.priorite ngModel name="priorite"  required  #priorite="ngModel" type="text" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Actions_à_faire : </label>
-                                        <input class="inputt" [(ngModel)]=user.action ngModel name="action" #action="ngModel" type="text" placeholder="Enter Action">
+                                        <input class="inputt" [(ngModel)]=user.action ngModel name="action"  required #action="ngModel" type="text" >
                                     </div>
                                 </div>
                             </div>
@@ -212,13 +210,13 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Oui Ou Non : </label>
-                                        <input class="inputt" [(ngModel)]=user.O_N ngModel name="O_N" #O_N="ngModel" type="text" placeholder="Enter Oui ou Nom">
+                                        <input class="inputt" [(ngModel)]=user.o_N ngModel name="o_N"  required #o_N="ngModel" type="text">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Délai de L'action : </label>
-                                        <input class="inputt" [(ngModel)]=user.delai ngModel name="delai"  #delai="ngModel" type="text" placeholder="Enter Délai de l'action">
+                                        <input class="inputt" [(ngModel)]=user.delaideaction ngModel name="delaideaction"  required  #delaideaction="ngModel" type="text" >
                                     </div>
                                 </div>
                             </div>
@@ -226,13 +224,13 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Responsable : </label>
-                                        <input class="inputt" [(ngModel)]=user.responsable ngModel name="responsable"  #responsable="ngModel" type="text" placeholder="Enter Responsable">
+                                        <input class="inputt" [(ngModel)]=user.responsable ngModel  required name="responsable"  #responsable="ngModel" type="text" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Délai : </label>
-                                        <input class="inputt" [(ngModel)]=user.delai2 ngModel name="delai2"  #delai2="ngModel" type="text" placeholder="Enter Délai">
+                                        <input class="inputt" [(ngModel)]=user.delai ngModel required  name="delai"  #delai="ngModel" type="text" >
                                     </div>
                                 </div>
                             </div>
@@ -240,13 +238,13 @@
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Statut : </label>
-                                        <input class="inputt" [(ngModel)]=user.statut ngModel name="statut"  #statut="ngModel" type="text" placeholder="Enter Statut">
+                                        <input class="inputt" [(ngModel)]=user.statut ngModel  required name="statut"  #statut="ngModel" type="text" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="labell1"> Commentaire : </label>
-                                        <input class="inputt" [(ngModel)]=user.commentaire ngModel name="commentaire"  #commentaire="ngModel" type="text" placeholder="Enter Commentaire">
+                                        <input class="inputt" [(ngModel)]=user.commentaire ngModel required  name="commentaire"  #commentaire="ngModel" type="text" >
                                     </div>
                                 </div>
                             </div>

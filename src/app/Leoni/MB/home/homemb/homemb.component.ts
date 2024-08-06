@@ -18,16 +18,18 @@ export class HomembComponent implements OnInit {
   nomPrenomAdmin : string="";
   user : any ={} ;
   pcda:Pcda[]=[];
+  pcdaSupprimer:any;
   constructor(private router:Router,private pcdaService:PcdaService) { }
 
   ngOnInit() {
     this.refreshList() ; 
+   
   }
   set texte(a:string){
     this.pcda=this.filtrer(a);
   }
   filtrer(a: string) {
-    return this.pcda.filter(x=>x.Titre.indexOf(a)!= -1);
+    return this.pcda.filter(x=>x.titre.indexOf(a)!= -1);
   }
   refreshList():void{
     this.pcdaService.getPcda().subscribe(data =>{
@@ -40,6 +42,25 @@ export class HomembComponent implements OnInit {
       const date = new Date(dateString);
       return date.toISOString().slice(0, 10); // Format 'yyyy-mm-dd'
     }  
+    openModelEdit(id : number){
+      /********  Open modal  *********/
+      const modalDiv = document.getElementById('exampleModalCenter2');
+    if (modalDiv) {
+      modalDiv.classList.add('show');
+      modalDiv.style.display = 'block'; // Assurez-vous que le modal est affiché
+      const backdropElement = document.createElement('div');
+      backdropElement.classList.add('modal-backdrop', 'fade', 'show');
+      document.body.appendChild(backdropElement);
+    }
+      
+      this.pcdaService.getPcdaById(id).subscribe(data => {
+        if (data) {
+          this.user = data;
+          
+          
+                       
+    }}) ;
+    }
     closeModalAdd() {
       const modalDiv= document.getElementById('exampleModalCenter') ; 
       if (modalDiv) {
@@ -51,21 +72,23 @@ export class HomembComponent implements OnInit {
         }
       }
     }
+  
     sauvegarderrr(fAdd: NgForm): void {
-      let designation = fAdd.value.designation;
+      let designation= fAdd.value.designation;
       let titre = fAdd.value.titre;
-      let sujet = fAdd.value.sujet;
+      let sujet_de_publication = fAdd.value.sujet_de_publication;
       let processus = fAdd.value.processus;
       let priorite = fAdd.value.priorite;
       let action = fAdd.value.action;
-      let O_N = fAdd.value.O_N; // Ensure this matches the form name
-      let delai = fAdd.value.delai;
+      let o_N = fAdd.value.o_N; // Ensure this matches the form name
+      let delaideaction = fAdd.value.delaideaction;
       let responsable = fAdd.value.responsable;
-      let delai2 = fAdd.value.delai2;
+      let delai = fAdd.value.delai;
       let statut = fAdd.value.statut;
       let commentaire = fAdd.value.commentaire;
     
-      let value = { designation, titre, sujet, processus, priorite, action, O_N, delai, responsable, delai2, statut, commentaire };
+      let value = { designation, titre, sujet_de_publication, processus, priorite, action, o_N, delaideaction, responsable, delai, statut, commentaire };
+     
       this.pcdaService.updatePcda(this.user.id, value ).subscribe(()=>{
         console.log("hiiiiiiiiiiiiiiiiiiii",fAdd.value)
         this.closeModalAdd() ;
