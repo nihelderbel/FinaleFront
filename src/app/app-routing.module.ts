@@ -59,6 +59,7 @@ import { HomemnComponent } from './Leoni/MN/Home/homemn/homemn.component';
 import { HomemsComponent } from './Leoni/MS/Home/homems/homems.component';
 import { HomemebComponent } from './Leoni/MEB-Autark/home/homemeb/homemeb.component';
 import { HomeomesComponent } from './Leoni/OEM-S/home/homeomes/homeomes.component';
+import { LoginAdminComponent } from './Leoni/Admin/Login/login-admin/login-admin.component';
 
 
 
@@ -83,6 +84,7 @@ const routes: Routes = [
  {path:"loginVw",component:LoginVWComponent},
  {path:"loginmb",component:LoginmbComponent},
  {path:"homeaudi",component:HomeaudiComponent},
+ {path:"loginadmin",component:LoginAdminComponent},
  {path:"homeadmin",component:HomeComponent},
  {path:"viewpcda",component:ViewPcdaComponent},
  {path:"homemb",component:HomembComponent},

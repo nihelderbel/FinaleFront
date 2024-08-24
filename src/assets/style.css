@@ -2909,6 +2909,17 @@ body{
     margin-left: 120px;
     margin-top: 8px;
 }
+.login .login-left7{
+    background-image: url(/assets/img/qualite.PNG);
+	background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 575px;
+    height: 190px;
+    position: absolute;
+    margin-left: 50px;
+    margin-top: 70px;
+}
 .login .login-left6{
     background-image: url(/assets/img/mn.PNG);
 	background-size: cover;
