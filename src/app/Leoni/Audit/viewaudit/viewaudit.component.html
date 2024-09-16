@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- iconscout cdn path -->
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/fontawesome.min.css">
+   <!-- CSS File Link -->
+   <link rel="stylesheet" href="/assets/style1.css">
+</head>
+<body>
+   <div class="sidebar" id="sidebar">
+      <div class="logo">
+         <a href="/homeadmin">
+            <h3>
+               <i class="uil uil-hospital" routerLink="/homeadmin"></i>
+               Leoni
+            </h3>
+         </a>
+      </div>
+
+      <div class="sidebar-menu">
+         <ul>
+            <li routerLink="/homeadmin">
+               <i class="uil uil-dashboard"></i>
+               <span>Tableau de bord</span>
+            </li>
+            <li routerLink="/homemn" >
+                <i class="uil uil-clipboard-notes"></i>
+                <span>PDCA</span>
+            </li>
+           
+            
+            <li routerLink="/viewaudit">
+                <i class="uil uil-clipboard-notes"></i>
+               <span>Audit</span>
+            </li>
+            <!---
+            <li routerLink="/patientsAM"> 
+              <i class="uil uil-accessible-icon-alt"></i>
+               <span>Patients</span>
+            </li>
+            <li routerLink="/allDepartementsAM">
+                <i class="uil uil-medical-square-full"></i>
+               <span>Départements</span>
+            </li>     
+        -->  
+            <li routerLink="/profileAM">
+               <i class="icofont-user-suited"></i>
+               <span>Mon Profil</span>
+            </li>
+            <li (click)="logout()">
+               <i class="uil uil-signin"></i>
+               <span>Déconnexion</span>
+            </li>
+         </ul>
+      </div>
+   </div>
+
+   <div class="main-content" id="main-content">
+      <header class="flex">
+         <h2>
+            <i class="uil uil-calendar-alt"></i>
+        Audit
+         </h2>
+         <div class="admin-box flex" >
+            <img src={{imagePath}} width="30px" height="30px">
+            <div>
+               <h2>{{nomPrenomAdmin}}</h2>
+               <small style="margin-left: 60px;">User </small>
+            </div>
+         </div>
+      </header>
+
+      <main>
+         <div class="cards">
+            <div class="single-card">
+               <div>
+                  <span>Audit</span>
+                  <h2></h2>
+               </div>
+               <i class="uil uil-calendar-alt"></i>
+            </div>
+            <div class="single-card">
+                <div>
+                    <img src="/assets/AdminDigital/assets/img/pdff.png" class="icon1" width="35px" height="35px" (click)="downloadPDF()">
+                </div>
+              
+            </div>
+            <div class="single-card">
+               <div>
+                  <span>import Exel</span>
+                  <!--<h2>{{patientToDaycount}}</h2>-->
+               </div>
+               <i class="uil uil-user-plus"></i>
+            </div>
+            <div class="single-card">
+                <span>Audit</span>
+                <button data-toggle="modal" data-target="#exampleModalCenter">
+                    <i class="icofont-ui-add"></i>
+                </button>
+               
+            </div>
+         </div>
+         <div class="wrapper flex">
+            <div class="projects">
+                <main>
+                    <div class="operations">
+                        <div class="card-header flex">
+                            <h3>Audit</h3>
+                            <div class="search-box">
+                                <i class="uil uil-search"></i>
+                                <input [(ngModel)]="texte" type="text" placeholder="recherche ici ...">
+                            </div>
+                           
+                           
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">N°changement</th>
+                                    <th scope="col">Type de Document</th>
+                                    <th scope="col">N°instruction</th>
+                                    <th scope="col">Titre de Document</th>
+                                    <th scope="col">Raison</th>
+                                    <th scope="col">Contenu</th>
+                                    <th scope="col">Etat d'instruction</th>
+                                    <th scope="col">Effectif</th>
+                                    <th scope="col">Application</th>
+                                    <th scope="col">Mise a jour</th>
+                                    <th scope="col">Deviation</th>
+                                    <th scope="col">Action</th>
+                                    <th scope="col">Responsable</th>
+                                    <th scope="col">Delai</th>
+                                    <th scope="col">Controle Success</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let task of audit">
+                                    <td>{{task.numeroChangement}}</td>
+                                    <td>{{task.typedocument}}</td>
+                                    <td>{{task.numeroinstruction}}</td>
+                                    <td>{{task.titredocument}}</td>
+                                    <td>{{task.raison}}</td>
+                                    <td>{{task.contenu }}</td>
+                                    <td>{{task.etatdeinstruction}}</td>
+                                    <td>{{task.effectif}}</td>
+                                    <td>{{task.application}}</td>
+                                    <td>{{task.miseajour}}</td>
+                                    <td>{{task.deviation}}</td>
+                                    <td>{{task.action}}</td>
+                                    <td>{{task.responsable}}</td>
+                                    <td>{{task.delai}}</td>
+                                    <td>{{task.controlesuccess}}</td>
+                                    <td>
+                                        <button (click)="supprimer(task.numeroChangement)">
+                                            <i class="icofont-ui-edit">Supprimer</i>
+                                        </button> &nbsp;&nbsp;&nbsp;
+                                        
+                                    </td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
+
+           
+<!--Modal Ajouter Audit-->
+<div style="position:fixed;margin-left:430px; margin-top:140px;"class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content" id="rahma">
+        <div class="modal-header" style="height: 60px;">
+          <h5 class="modal-title" id="exampleModalLongTitle" style="margin-top: 15px;
+          margin-left: 170px;">&nbsp;&nbsp;&nbsp;&nbsp;Audit <br></h5>
+          <button type="button" class="close" (click)="closeModalAdd()"
+          style="position: fixed;margin-left: 691px; margin-top: 6px;height: 49px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
+            <form #fAdd="ngForm">
+                <div class="row">
+                   
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell"> Type de document: </label>
+                            <input class="inputt"  ngModel name="typedocument"  required   #typedocument="ngModel" type="text" >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Numero d'Instruction: </label>
+                            <input class="inputt"  ngModel name="numeroinstruction"  required  #numeroinstruction="ngModel" type="text"  >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Titre De document :</label>
+                            <input class="inputt" ngModel name="titredocument"  required  #titredocument="ngModel" type="text"  >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Raison: </label>
+                            <input class="inputt" ngModel name="raison"  required  #raison="ngModel" type="text" >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Contenu : </label>
+                            <input class="inputt"  ngModel name="contenu"  required #contenu="ngModel" type="text" >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Etat d'Instruction </label>
+                            <input class="inputt" ngModel name="etatdeinstruction"  required #etatdeinstruction="ngModel" type="text">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Effectif : </label>
+                            <input class="inputt"  ngModel name="effectif"  required  #effectif="ngModel" type="text" >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Application : </label>
+                            <input class="inputt"  ngModel  required name="application"  #application="ngModel" type="text" >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Mise à Jour : </label>
+                            <input class="inputt" ngModel required  name="miseajour"  #miseajour="ngModel" type="text" >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Déviation : </label>
+                            <input class="inputt"  ngModel  required name="deviation"  #deviation="ngModel" type="text" >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Action : </label>
+                            <input class="inputt"  ngModel required  name="action"  #action="ngModel" type="text" >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Resposnable : </label>
+                            <input class="inputt"  ngModel  required name="responsable"  #responsable="ngModel" type="text" >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Délai : </label>
+                            <input class="inputt"  ngModel required  name="delai"  #delai="ngModel" type="text" >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                            <label class="labell1"> Controle de Success : </label>
+                            <input class="inputt" ngModel  required name="controlesuccess"  #controlesuccess="ngModel" type="text" >
+                        </div>
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+        
+        
+          <div class="modal-footer" style="height: 60px;display: flex;justify-content: center;">
+            <button type="button" class="btn22" (click)="closeModalAdd()">Quitter</button>
+            <button type="submit" class="btn btn-primary" (click)="sauvegarderrr(fAdd)" >Sauvgarder</button>
+          </div>
+        </div>
+        </div>
+        </div>
+        </div> 
+      </main>
+   </div>
+</body>
+</html>
