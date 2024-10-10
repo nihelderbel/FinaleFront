@@ -72,6 +72,8 @@ import { HomemsComponent } from './Leoni/MS/Home/homems/homems.component';
 import { HomemebComponent } from './Leoni/MEB-Autark/home/homemeb/homemeb.component';
 import { HomeomesComponent } from './Leoni/OEM-S/home/homeomes/homeomes.component';
 import { ViewauditComponent } from './Leoni/Audit/viewaudit/viewaudit.component';
+import { AuditComponent } from './Leoni/Admin/Audit/audit/audit.component';
+import { AdduserComponent } from './Leoni/Admin/users/adduser/adduser.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -140,6 +142,8 @@ import { ViewauditComponent } from './Leoni/Audit/viewaudit/viewaudit.component'
     HomemebComponent,
     HomeomesComponent,
     ViewauditComponent,
+    AuditComponent,
+    AdduserComponent,
   
   ],
   imports: [

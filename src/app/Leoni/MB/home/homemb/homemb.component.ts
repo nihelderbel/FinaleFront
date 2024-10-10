@@ -111,48 +111,86 @@ export class HomembComponent implements OnInit {
     
     downloadPDF():void{
       // Récupérer le logo de la clinique depuis votre service ou le stockage local
-      const logoplus = '/assets/img/leoni.png';
-      // Appel à la méthode pour récupérer les départements depuis le service
-      this.pcdaService.getPcda().subscribe(pcda => {
-        // Vérifier si departements est bien un tableau
-        if (Array.isArray(pcda)) {
-          // Créer un nouveau document PDF
-          import('jspdf').then((jsPDF) => {
-            const doc = new jsPDF.default(); // Utilisez .default pour accéder à l'objet jsPDF
-     
-            // Ajouter le logo de la clinique
-            const logoWidth = 20;
-            const logoHeight = 20;
-            doc.addImage(logoplus, 'PNG', 5 + 10 + 5, 5, undefined, undefined);
-            doc.setFontSize(24); 
-            doc.setTextColor(0, 0, 0); 
-            doc.setFont('helvetica', 'bold'); 
-            doc.text('\nListe des PDCA \n', 25, 25); 
-            // Définir les colonnes du tableau
-            const headers = [['N°', 'Désignation', 'Titre' , 'Sujet_de_la_publication' , 'Processus' , 'Priorité' ,'Actions_à_faire','O/N','Délai(s) de ld\'action','Responsable','Délai','Statut','Commentaire' ]];
-            let idl = 1; // Variable de compteur pour les numéros de département
-            // Convertir chaque département en tableau de lignes de données
-            const data = pcda.map((task: any) => [idl++,task.id,task.designation ,task.designation,task.Titre,
-             task.Sujet_de_la_publication,task.Processus,task.Priorite,task.Action,task.O_N,task.Delaideaction,task.Responsable
-             ,task.Delai,task.Statut,task.commentaire
-            ]);
-     
-            // Dessiner le tableau dans le PDF
-            (doc as any).autoTable({
-              startY: 40,
-              head: headers,
-              body: data,
-            });
-     
-            // Télécharger le PDF avec un nom de fichier spécifié
-            doc.save('Liste des PDCA.pdf');
-          }).catch((error) => {
-            console.error('Erreur lors du chargement de jspdf :', error);
-          });
-        } else {
-          console.error('Les données récupérées ne sont pas un tableau.');
+const logoplus = '/assets/img/leoni.png';
+// Appel à la méthode pour récupérer les départements depuis le service
+this.pcdaService.getPcda().subscribe(pcda => {
+  // Vérifier si departements est bien un tableau
+  if (Array.isArray(pcda)) {
+    // Créer un nouveau document PDF
+    import('jspdf').then((jsPDF) => {
+      const doc = new jsPDF.default(); // Utilisez .default pour accéder à l'objet jsPDF
+
+      // Ajouter le logo de la clinique dans le titre
+      const logoWidth = 20;
+      const logoHeight = 20;
+      doc.addImage(logoplus, 'PNG', 10, 10, logoWidth, logoHeight); // Positionner le logo à côté du texte
+
+      doc.setFontSize(18); // Taille réduite pour le titre
+      doc.setTextColor(0, 0, 0);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Liste des PDCA', 35, 20); // Déplacer le texte à droite du logo
+
+      // Définir les colonnes du tableau avec des largeurs adaptées
+      const headers = [['N°', 'Désignation', 'Titre', 'Sujet', 'Processus', 'Priorité', 'Actions', 'O/N', 'Délai Action', 'Responsable', 'Délai', 'Statut', 'Commentaire']];
+
+      let idl = 1; // Variable de compteur pour les numéros
+      // Convertir chaque département en tableau de lignes de données
+      const data = pcda.map((task: any) => [
+        idl++, 
+        task.designation,
+        task.Titre,
+        task.Sujet_de_la_publication,
+        task.Processus,
+        task.Priorite,
+        task.Action,
+        task.O_N,
+        task.Delaideaction,
+        task.Responsable,
+        task.Delai,
+        task.Statut,
+        task.commentaire
+      ]);
+
+      // Dessiner le tableau dans le PDF avec autoTable et des colonnes de largeur ajustée
+      (doc as any).autoTable({
+        startY: 30,
+        head: headers,
+        body: data,
+        styles: {
+          fontSize: 10, // Taille de police réduite pour plus de contenu
+          cellPadding: 3, // Espacement réduit pour compacter les colonnes
+        },
+        columnStyles: {
+          0: {cellWidth: 10}, // N°
+          1: {cellWidth: 30}, // Désignation
+          2: {cellWidth: 30}, // Titre
+          3: {cellWidth: 40}, // Sujet
+          4: {cellWidth: 20}, // Processus
+          5: {cellWidth: 20}, // Priorité
+          6: {cellWidth: 40}, // Actions
+          7: {cellWidth: 10}, // O/N
+          8: {cellWidth: 30}, // Délai Action
+          9: {cellWidth: 30}, // Responsable
+          10: {cellWidth: 20}, // Délai
+          11: {cellWidth: 20}, // Statut
+          12: {cellWidth: 40}, // Commentaire
+        },
+        theme: 'grid', // Ajout d'un thème "grid" pour les lignes de séparation
+        didDrawPage: function (data: any) {
+          doc.setFontSize(12);
         }
       });
+
+      // Télécharger le PDF avec un nom de fichier spécifié
+      doc.save('Liste_des_PDCA.pdf');
+    }).catch((error) => {
+      console.error('Erreur lors du chargement de jspdf :', error);
+    });
+  } else {
+    console.error('Les données récupérées ne sont pas un tableau.');
+  }
+});
+
        }
        logout() {
          localStorage.clear();

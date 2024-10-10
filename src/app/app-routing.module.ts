@@ -62,6 +62,8 @@ import { HomeomesComponent } from './Leoni/OEM-S/home/homeomes/homeomes.componen
 import { LoginAdminComponent } from './Leoni/Admin/Login/login-admin/login-admin.component';
 import { ViewAuditComponent } from './Leoni/BMW/view/view-audit/view-audit.component';
 import { ViewauditComponent } from './Leoni/Audit/viewaudit/viewaudit.component';
+import { AuditComponent } from './Leoni/Admin/Audit/audit/audit.component';
+import { AdduserComponent } from './Leoni/Admin/users/adduser/adduser.component';
 
 
 
@@ -99,6 +101,8 @@ const routes: Routes = [
  {path:"homemeb",component:HomemebComponent},
  {path:"homeomes",component:HomeomesComponent},
  {path:"viewaudit",component:ViewauditComponent},
+ {path:"auditadmin",component:AuditComponent},
+ {path:"adduser",component:AdduserComponent},
 
 
 
